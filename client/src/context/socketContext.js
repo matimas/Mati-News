@@ -1,8 +1,6 @@
 import { createContext } from 'react';
 import io from 'socket.io-client';
-console.log('====================================');
-console.log(localStorage);
-console.log('====================================');
+
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
 const userName = localStorage.getItem('userName');

@@ -30,7 +30,6 @@ function FeedChat(props) {
 	})();
 
 	useEffect(() => {
-		console.log(socket);
 		socket.emit('join the room', chatRoom);
 		socket.on('receive previous comments', receivePreviousCommentsHandler);
 		return () => {

@@ -50,7 +50,6 @@ function MainApp() {
 		feedsApi
 			.get('/feeds', { params: feedsConfig })
 			.then((newFeeds) => {
-				console.log(newFeeds);
 				page > 1
 					? setDataFeeds(dataFeeds.concat(newFeeds.data))
 					: setDataFeeds(newFeeds.data);
@@ -80,10 +79,6 @@ function MainApp() {
 		const userName = localStorage.getItem('userName');
 		const picture = localStorage.getItem('picture');
 		const expiryDate = localStorage.getItem('expiryDate') * 1.5;
-		console.log('====================================');
-		console.log(expiryDate);
-		console.log(Date.now());
-		console.log('====================================');
 		if (!userName) return;
 
 		if (expiryDate < Date.now()) logout();

@@ -51,9 +51,6 @@ function Login(props) {
 	}))();
 
 	const responseFacebookLogin = (response) => {
-		console.log('====================================');
-		console.log(response);
-		console.log('====================================');
 		if (!response.accessToken) return;
 		const { accessToken, id, name, expiresIn, picture } = response;
 		const userInfo = {
