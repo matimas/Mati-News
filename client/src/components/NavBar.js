@@ -30,6 +30,7 @@ import {
 	DeveloperMode,
 } from '@material-ui/icons';
 import { authenticationContext } from '../context/authenticationContext';
+import { Link } from 'react-router-dom';
 
 const countryListData = [
 	'il',
@@ -167,7 +168,12 @@ function NavBar(props) {
 				<ListItemIcon>
 					<StarBorder />
 				</ListItemIcon>
-				<ListItemText primary='Favorites' />
+				<Link
+					to='/user-favorites'
+					style={{ textDecoration: 'none', color: '#00193B' }}
+				>
+					<ListItemText primary='Favorites' />
+				</Link>
 			</ListItem>
 			<ListItem button className={classes.listItem} onClick={() => logout()}>
 				<ListItemIcon>
