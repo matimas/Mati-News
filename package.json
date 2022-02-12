@@ -5,10 +5,10 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "node App.js ",
+		"server": "node App.js ",
 		"client": "npm run start --prefix client",
-		"dev": "concurrently \"npm run start\" \"npm run client\"",
-		"install-all": "npm install && cd client && npm install && npm run build",
-		"heroku-postbuild": "cd client && npm install && npm run build"
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
 	},
 	"keywords": [],
 	"author": "mati masganow",
