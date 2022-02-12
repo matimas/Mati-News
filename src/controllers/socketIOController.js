@@ -7,8 +7,8 @@ const facebook = {
 };
 const google = {
 	appID:
-		'673808119262-ftnfi8bk8jo7r5tc3s5jsu5lhq7qu1or.apps.googleusercontent.com',
-	appSecret: 'rPQUA5Hcgd-8dQubBBbX_2jt',
+		'159757706926-o9afbfuq9mal3kb1pfi4rnqbg681u4od.apps.googleusercontent.com',
+	appSecret: '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',
 };
 
 exports.socketIoConnect = (io) => {
