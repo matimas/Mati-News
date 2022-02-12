@@ -1,4 +1,5 @@
 const http = require('http');
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const socket_io = require('socket.io');
@@ -8,9 +9,9 @@ const server = http.Server(app);
 // const io = socket_io(server);
 const io = socket_io(server, {
 	cors: {
-		origin: '*',
+		origin: '/',
 		methods: ['GET'],
-		transports: ['polling'],
+		transports: ['polling', 'websocket'],
 		credentials: true,
 	},
 	allowEIO3: true,
@@ -20,7 +21,7 @@ const { mongoDBconnect } = require('./util/database');
 const { socketIoConnect } = require('./controllers/socketIOController');
 const { errorHandler } = require('./middlewares/errorHandler');
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 app.use(cors());
 
@@ -32,5 +33,9 @@ app.use(errorHandler);
 
 socketIoConnect(io);
 
-server.listen(process.env.PORT || 8080);
+const PORT = process.env.PORT || 8080;
+
+server.listen(PORT, () => {
+	console.log('Server running on :' + PORT);
+});
 mongoDBconnect(() => {});
