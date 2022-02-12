@@ -26,3 +26,18 @@ newsapi
 nodemon
 axios
 ```
+
+#### Client:
+
+```
+react
+react-scripts
+react-dom
+material-ui
+socket.io-client
+axios
+react-facebook-login
+react-google-login
+react-share
+react-infinite-scroll-component
+```

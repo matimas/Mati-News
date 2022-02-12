@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
 	makeStyles,
 	useMediaQuery,
@@ -13,20 +13,10 @@ import {
 	Badge,
 } from '@material-ui/core';
 import { Share, Message } from '@material-ui/icons';
-import {
-	FacebookShareButton,
-	WhatsappShareButton,
-	TelegramShareButton,
-	TwitterShareButton,
-} from 'react-share';
-import {
-	FacebookIcon,
-	TwitterIcon,
-	TelegramIcon,
-	WhatsappIcon,
-} from 'react-share';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import FeedChat from './FeedChat';
-
+import { authenticationContext } from '../context/authenticationContext';
+import ShareButtons from './ShareMedia';
 function Feed(props) {
 	const {
 		title,
@@ -37,18 +27,23 @@ function Feed(props) {
 		source,
 		amountOfComments,
 	} = props.dataFeed;
+
 	const [showFeedChat, setShowFeedChat] = useState(false);
 	const [showShareButtons, setShowShareButtons] = useState(false);
+	const [amountOfCommentsNow, setAmountOfCommentsNow] =
+		useState(amountOfComments);
+	const { picture } = useContext(authenticationContext);
+
 	const tabletMQ = useMediaQuery('(max-width:1000px)');
 	const phoneMQ = useMediaQuery('(max-width:550px)');
 	const classes = makeStyles({
 		card: {
-			width: phoneMQ ? '100%' : tabletMQ ? '70vw' : '45vw',
+			width: phoneMQ ? '100%' : tabletMQ ? '70vw' : 750,
 			marginBottom: 50,
 			boxShadow: '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
 		},
 		media: {
-			height: phoneMQ ? '70vw' : tabletMQ ? '45vw' : '45vw',
+			height: phoneMQ ? '70vw' : tabletMQ ? '45vw' : 500,
 			objectFit: 'fill',
 		},
 		shareButtons: {
@@ -64,23 +59,6 @@ function Feed(props) {
 	const sourceSiteNavigation = () => {
 		window.open(url);
 	};
-
-	const ShareButtons = () => (
-		<div className={classes.shareButtons}>
-			<FacebookShareButton url={url} className={classes.shareButton}>
-				<FacebookIcon round={true} size={36} />
-			</FacebookShareButton>
-			<WhatsappShareButton url={url} className={classes.shareButton}>
-				<WhatsappIcon round={true} size={36} />
-			</WhatsappShareButton>
-			<TelegramShareButton url={url} className={classes.shareButton}>
-				<TelegramIcon round={true} size={36} />
-			</TelegramShareButton>
-			<TwitterShareButton url={url} className={classes.shareButton}>
-				<TwitterIcon round={true} size={36} />
-			</TwitterShareButton>
-		</div>
-	);
 
 	return (
 		<Card className={classes.card}>
@@ -103,23 +81,46 @@ function Feed(props) {
 				</CardContent>
 			</CardActionArea>
 			<CardActions>
-				<IconButton onClick={() => setShowShareButtons(!showShareButtons)}>
-					<Share />
-				</IconButton>
-				<IconButton onClick={() => setShowFeedChat(!showFeedChat)}>
-					<Badge color='primary' badgeContent={amountOfComments}>
-						<Message />
-					</Badge>
-				</IconButton>
+				{picture ? (
+					<>
+						<IconButton>
+							<FavoriteIcon />
+						</IconButton>
+						<IconButton onClick={() => setShowShareButtons(!showShareButtons)}>
+							<Share />
+						</IconButton>
+						<IconButton onClick={() => setShowFeedChat(!showFeedChat)}>
+							<Badge color='primary' badgeContent={amountOfCommentsNow}>
+								<Message />
+							</Badge>
+						</IconButton>
+					</>
+				) : (
+					<>
+						<IconButton onClick={() => setShowShareButtons(!showShareButtons)}>
+							<Share />
+						</IconButton>
+						<IconButton onClick={() => setShowFeedChat(!showFeedChat)}>
+							<Badge color='primary' badgeContent={amountOfCommentsNow}>
+								<Message />
+							</Badge>
+						</IconButton>
+					</>
+				)}
 			</CardActions>
 			<Collapse in={showShareButtons} timeout='auto' unmountOnExit>
 				<CardContent>
-					<ShareButtons />
+					<ShareButtons url={url} classes={classes} />
 				</CardContent>
 			</Collapse>
 			<Collapse in={showFeedChat} timeout='auto' unmountOnExit>
 				<CardContent>
-					<FeedChat chatRoom={url} />
+					<FeedChat
+						chatRoom={url}
+						setShowFeedChat={setShowFeedChat}
+						setAmountOfCommentsNow={setAmountOfCommentsNow}
+						userPicture={picture}
+					/>
 				</CardContent>
 			</Collapse>
 		</Card>

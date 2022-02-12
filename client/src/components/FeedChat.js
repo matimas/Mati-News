@@ -1,25 +1,21 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
 	makeStyles,
-	List,
-	ListItem,
 	TextField,
-	ListItemText,
-	ListItemAvatar,
 	InputAdornment,
 	Button,
 	Avatar,
 } from '@material-ui/core';
+import Comments from './FeedChatComments';
 import socketContext from '../context/socketContext';
-import { authenticationContext } from '../context/authenticationContext';
 
 function FeedChat(props) {
 	const [chatComments, setChatComments] = useState([]);
 	const [userComment, setUserComment] = useState('');
 	const socket = useContext(socketContext);
-	const { picture } = useContext(authenticationContext);
 	const feedChatDisplayRef = useRef(null);
 	const { chatRoom } = props;
+
 	const classes = makeStyles({
 		feedChatDisplay: {
 			height: 150,
@@ -34,6 +30,7 @@ function FeedChat(props) {
 	})();
 
 	useEffect(() => {
+		console.log(socket);
 		socket.emit('join the room', chatRoom);
 		socket.on('receive previous comments', receivePreviousCommentsHandler);
 		return () => {
@@ -52,11 +49,12 @@ function FeedChat(props) {
 		return () =>
 			socket.removeListener('Receive a comment', receiveCommentHandler);
 		// eslint-disable-next-line
-	}, []);
+	}, [chatComments]);
 
 	const receivePreviousCommentsHandler = ({ room, comments }) => {
 		if (chatRoom !== room) return;
 		setChatComments(comments);
+		props.setAmountOfCommentsNow(comments.length);
 	};
 
 	const receiveCommentHandler = (comment) => {
@@ -75,6 +73,7 @@ function FeedChat(props) {
 		};
 		socket.emit('Send a comment', comment);
 		setUserComment('');
+		props.setShowFeedChat(false);
 	};
 
 	const onChangeTextHandler = (event) => {
@@ -85,30 +84,11 @@ function FeedChat(props) {
 		feedChatDisplayRef.current.scrollTop =
 			feedChatDisplayRef.current.scrollHeight;
 	};
-	const Comments = () => (
-		<List>
-			{chatComments.map((comment, ind) => (
-				<ListItem key={ind}>
-					<ListItemAvatar>
-						<Avatar src={comment.picture} />
-					</ListItemAvatar>
-					<ListItemText
-						primary={comment.text}
-						secondary={
-							comment.userName +
-							', ' +
-							new Date(comment.createdAt).toLocaleString()
-						}
-					/>
-				</ListItem>
-			))}
-		</List>
-	);
 
 	return (
 		<div className='feed-chat'>
 			<div className={classes.feedChatDisplay} ref={feedChatDisplayRef}>
-				<Comments />
+				<Comments chatComments={chatComments} />
 			</div>
 			<TextField
 				fullWidth
@@ -119,9 +99,9 @@ function FeedChat(props) {
 				onChange={onChangeTextHandler}
 				InputProps={{
 					startAdornment: (
-						<InputAdornment>
+						<InputAdornment position='start'>
 							<Avatar
-								src={picture || './default-guest.jpg'}
+								src={props.userPicture || './default-guest.jpg'}
 								className={classes.avatar}
 							/>
 						</InputAdornment>

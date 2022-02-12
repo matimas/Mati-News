@@ -1,7 +1,7 @@
 const mongoClient = require('mongodb').MongoClient;
-
-const uri =
-	'mongodb+srv://matimas:mati3044@cluster0.yx1p2.mongodb.net/test?retryWrites=true&w=majority';
+require('dotenv').config();
+const PASSWORD = process.env.PASS;
+const uri = `mongodb+srv://matimas:${PASSWORD}@cluster0.yx1p2.mongodb.net/test?retryWrites=true&w=majority`;
 let db;
 
 exports.mongoDBconnect = () => {

@@ -29,7 +29,7 @@ function MainApp() {
 		feeds: {
 			display: 'flex',
 			flexDirection: 'column',
-			padding: tabletMQ ? '80px 0px 0px 0px' : '80px 0px 0px 250px',
+			padding: tabletMQ ? '80px 0px 0px 0px' : '80px 0px 0px 255px',
 			alignItems: 'center',
 		},
 		linearProgress: {
@@ -79,8 +79,11 @@ function MainApp() {
 	const checkUserAuthentication = () => {
 		const userName = localStorage.getItem('userName');
 		const picture = localStorage.getItem('picture');
-		const expiryDate = localStorage.getItem('expiryDate') * 1;
-
+		const expiryDate = localStorage.getItem('expiryDate') * 1.5;
+		console.log('====================================');
+		console.log(expiryDate);
+		console.log(Date.now());
+		console.log('====================================');
 		if (!userName) return;
 
 		if (expiryDate < Date.now()) logout();
