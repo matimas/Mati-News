@@ -39,6 +39,6 @@
 		]
 	},
 	"browser": {
-                "assert": false,
-        },
+                "assert": false
+        }
 }
