@@ -32,23 +32,7 @@ import {
 import { authenticationContext } from '../context/authenticationContext';
 import { Link } from 'react-router-dom';
 
-const countryListData = [
-	'il',
-	'us',
-	'fr',
-	'gb',
-	'cn',
-	'in',
-	'de',
-	'ca',
-	'ru',
-	'nl',
-	'it',
-	'mx',
-	'br',
-	'au',
-	'jp',
-];
+const countryListData = ['us', 'in', 'nl'];
 
 const categoryListData = [
 	{ text: 'General', icon: <SpeakerNotes /> },
@@ -63,7 +47,7 @@ function NavBar(props) {
 		window.innerWidth > 1000 ? true : false,
 	);
 	const [selectedCategory, setSelectedCategory] = useState('General');
-	const [selectedCountry, setSelectedCountry] = useState('il');
+	const [selectedCountry, setSelectedCountry] = useState('us');
 	const [showCountryList, setShowCountryList] = useState(false);
 	const { logout, isAuthenticated, picture } = useContext(
 		authenticationContext,
@@ -130,13 +114,7 @@ function NavBar(props) {
 							className={classes.nestedListItem}
 							onClick={() => handleCountryListItemClick(country)}
 						>
-							<ListItemIcon>
-								<img
-									alt={country + ' flag'}
-									src={`https://countryflagsapi.com/png/${country}`}
-									style={{ height: '50px', width: '40px' }}
-								/>
-							</ListItemIcon>
+							<ListItemIcon>{country}</ListItemIcon>
 							<ListItemText />
 						</ListItem>
 					))}

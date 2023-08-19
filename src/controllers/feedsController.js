@@ -11,7 +11,7 @@ const getAllFeeds = async (req, res, next) => {
 
 const getFeedsAmountOfComments = (feeds) => {
 	return Promise.all(
-		feeds?.map(async (feed) => {
+		feeds.map(async (feed) => {
 			let comments = await getDB()
 				.collection('comments')
 				.find({ room: feed.url })

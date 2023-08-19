@@ -8,7 +8,7 @@ import { NavBar, Login, Feed } from '../components';
 
 const initializeState = {
 	category: 'General',
-	country: 'il',
+	country: 'us',
 	page: 1,
 };
 
@@ -90,9 +90,9 @@ function MainApp() {
 
 	const Feeds = () => (
 		<div className={classes.feeds}>
-			{dataFeeds.map((feed) =>
-				feed.urlToImage ? <Feed dataFeed={feed} key={feed.url} /> : null,
-			)}
+			{dataFeeds.map((feed) => (
+				<Feed dataFeed={feed} key={feed.url} />
+			))}
 		</div>
 	);
 	return (
